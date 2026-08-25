@@ -39,3 +39,15 @@ def ai_agent_router():
         ]
         for p in patterns:
             q = q.replace(p, "")
+        q = q.strip()
+        vid = get_vid(q)
+        if vid:
+            targetv = f"https://www.youtube.com/watch?v={vid}?autoplay=1&mute=1"
+            msg = f"playing {q}"
+    elif any(x in cmd for x in ["gmail", "email", "mail","message"]):
+        to,body = "",""
+        clean_cmd = re.sub(r'^please\s)?(open\s+)?(gmail|email|mail|message)\s?*,', '', cmd).strip()
+        clean_cmd  =re.sub(r'\b(com(and\mand)?)\b', 'com', clean_cmd)
+        parts = re.split(r'\b(type\write\saying|message|content|with body)\b', clean_cmd)
+        recip_part = parts[0].strip()
+        recip_part = re.sub(r'^(update\s+to|to|send\s+to|and\s+update\s+to)\s*', '', recip_part).strip()
